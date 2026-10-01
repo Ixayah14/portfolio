@@ -169,8 +169,8 @@ function initKatanaUnsheathing() {
     const mobileProgress = document.getElementById('mobile-katana-blade-progress');
     const mobilePct = document.getElementById('mobile-katana-pct');
 
-    // Scabbard travel physics
-    const maxTravel = 230; // Max downward pixel slide of saya to uncover blade
+    // Scabbard travel physics for elongated Katana
+    const maxTravel = 470; // Max downward pixel slide of saya along elongated blade
     let targetSayaY = 0;
     let currentSayaY = 0;
     let targetPct = 0;
@@ -252,10 +252,10 @@ function initKatanaUnsheathing() {
             }
         }
 
-        // Specular Glint position on blade edge
+        // Specular Glint position along elongated blade edge
         if (glintEl) {
-            const glintY = 90 + (currentSayaY * 0.95);
-            glintEl.setAttribute('cy', Math.min(320, glintY).toFixed(1));
+            const glintY = 90 + (currentSayaY * 0.98);
+            glintEl.setAttribute('cy', Math.min(550, glintY).toFixed(1));
             glintEl.style.opacity = roundedPct > 5 ? '0.9' : '0';
         }
 
@@ -318,8 +318,8 @@ function initKatanaUnsheathing() {
         if (maxScroll <= 0) return;
 
         const stageRect = katanaSvgStage.getBoundingClientRect();
-        // The scabbard travel track is roughly 60% of the stage height
-        const travelSpan = stageRect.height * (maxTravel / 380);
+        // The scabbard travel track is proportional to the elongated SVG height
+        const travelSpan = stageRect.height * (maxTravel / 620);
         if (travelSpan <= 0) return;
 
         const targetScroll = Math.max(0, Math.min(maxScroll, dragStartScrollY + (deltaY / travelSpan) * maxScroll));

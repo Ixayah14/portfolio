@@ -257,8 +257,8 @@
                 </div>
 
                 <!-- Master SVG Katana: Fixed Hilt & Blade + Scroll-Sliding Scabbard (Saya) -->
-                <div class="katana-svg-stage" id="katana-svg-stage" title="Click Katana to Strike // 抜刀一撃">
-                    <svg class="katana-svg" viewBox="0 0 60 380" width="60" height="380" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <div class="katana-svg-stage" id="katana-svg-stage" title="Hold & Scrub to Scroll // Click to Strike">
+                    <svg class="katana-svg" viewBox="0 0 60 620" width="60" height="620" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                         <defs>
                             <!-- Steel Blade Mirror Gradient -->
                             <linearGradient id="bladeSteelGrad" x1="0" y1="0" x2="1" y2="0">
@@ -300,7 +300,7 @@
                             </filter>
                             <!-- Track Clip Path to contain sliding saya -->
                             <clipPath id="chassisClip">
-                                <rect x="0" y="70" width="60" height="305" rx="4" />
+                                <rect x="0" y="70" width="60" height="540" rx="4" />
                             </clipPath>
                         </defs>
 
@@ -343,20 +343,30 @@
                         <!-- 3. Habaki (Blade Collar) -->
                         <polygon points="26,75 34,75 33,86 27,86" fill="url(#goldTrimGrad)" stroke="#553c06" stroke-width="0.5" />
 
-                        <!-- 4. The Katana Blade (Nagasa) - Tamahagane Mirror Steel -->
+                        <!-- 4. The Katana Blade (Nagasa) - Elongated Tamahagane Mirror Steel -->
                         <g class="katana-blade-group" id="katana-blade-group">
-                            <!-- Main Blade Profile -->
-                            <path d="M 27 86 Q 26.5 190, 27 285 Q 27.5 315, 30 326 C 29.5 320, 29 270, 31 190 Q 32.5 130, 33 86 Z" fill="url(#bladeSteelGrad)" stroke="#64748b" stroke-width="0.5" />
+                            <!-- Main Blade Profile (Elongated from y=86 to y=560) -->
+                            <path d="M 27 86 Q 26.2 320, 27 510 Q 27.5 545, 30 560 C 29.5 554, 29 470, 31 320 Q 32.5 190, 33 86 Z" fill="url(#bladeSteelGrad)" stroke="#64748b" stroke-width="0.5" />
                             <!-- Bo-hi (Blood Groove) -->
-                            <path d="M 28 88 Q 28 180, 28.5 270" stroke="#1e293b" stroke-width="1" stroke-linecap="round" opacity="0.75" />
-                            <!-- Wavy Hamon (Clay-tempered undulating crystalline edge line) -->
-                            <path d="M 31.5 86 Q 32 105, 31 115 Q 32.5 125, 31 135 Q 32.8 145, 30.8 155 Q 32.5 165, 31 175 Q 32.5 185, 30.5 195 Q 32.2 205, 30.8 215 Q 32.4 225, 30.5 235 Q 32 245, 30.2 255 Q 31.8 265, 30 275 Q 31.5 285, 29.5 295 Q 31 305, 29.5 315 L 30 326" fill="none" stroke="#ffffff" stroke-width="0.9" opacity="0.85" filter="url(#bladeGlowFilter)" />
+                            <path d="M 28 88 Q 28 320, 28.5 500" stroke="#1e293b" stroke-width="1" stroke-linecap="round" opacity="0.75" />
+                            <!-- Wavy Hamon (Clay-tempered undulating crystalline edge line all along blade) -->
+                            <path d="M 31.5 86 Q 32.5 105, 31 120 Q 32.6 135, 31.2 150 Q 32.8 165, 30.8 180 Q 32.5 195, 31 210 Q 32.6 225, 30.6 240 Q 32.4 255, 30.8 270 Q 32.5 285, 30.5 300 Q 32.2 315, 30.8 330 Q 32.5 345, 30.4 360 Q 32.2 375, 30.8 390 Q 32.4 405, 30.5 420 Q 32.2 435, 30.8 450 Q 32.5 465, 30.4 480 Q 32.2 495, 30.8 510 Q 32.0 525, 30.2 538 Q 31.2 548, 29.8 554 L 30 560" fill="none" stroke="#ffffff" stroke-width="0.9" opacity="0.88" filter="url(#bladeGlowFilter)" />
                             <!-- Cutting Edge Luminous Shimmer Line -->
-                            <path d="M 32.5 86 Q 32.8 190, 31 285 Q 30.5 310, 30 326" stroke="url(#bladeEdgeGlow)" stroke-width="0.8" opacity="0.95" />
-                            <!-- Gold Kanji Engraved onto Steel -->
-                            <text x="30" y="118" font-family="'Shippori Mincho', serif" font-size="5" fill="#b8860b" text-anchor="middle" font-weight="900" opacity="0.85">武</text>
-                            <text x="30" y="128" font-family="'Shippori Mincho', serif" font-size="5" fill="#b8860b" text-anchor="middle" font-weight="900" opacity="0.85">士</text>
-                            <text x="30" y="138" font-family="'Shippori Mincho', serif" font-size="5" fill="#b8860b" text-anchor="middle" font-weight="900" opacity="0.85">道</text>
+                            <path d="M 32.5 86 Q 32.8 320, 31 510 Q 30.5 545, 30 560" stroke="url(#bladeEdgeGlow)" stroke-width="0.8" opacity="0.95" />
+                            <!-- Gold Kanji Inscriptions Along Full Length of Blade -->
+                            <text x="30" y="115" font-family="'Shippori Mincho', serif" font-size="5" fill="#b8860b" text-anchor="middle" font-weight="900" opacity="0.85">武</text>
+                            <text x="30" y="130" font-family="'Shippori Mincho', serif" font-size="5" fill="#b8860b" text-anchor="middle" font-weight="900" opacity="0.85">士</text>
+                            <text x="30" y="145" font-family="'Shippori Mincho', serif" font-size="5" fill="#b8860b" text-anchor="middle" font-weight="900" opacity="0.85">道</text>
+                            <text x="30" y="195" font-family="'Shippori Mincho', serif" font-size="4.8" fill="#b8860b" text-anchor="middle" font-weight="900" opacity="0.8">一</text>
+                            <text x="30" y="210" font-family="'Shippori Mincho', serif" font-size="4.8" fill="#b8860b" text-anchor="middle" font-weight="900" opacity="0.8">閃</text>
+                            <text x="30" y="260" font-family="'Shippori Mincho', serif" font-size="4.8" fill="#b8860b" text-anchor="middle" font-weight="900" opacity="0.8">無</text>
+                            <text x="30" y="275" font-family="'Shippori Mincho', serif" font-size="4.8" fill="#b8860b" text-anchor="middle" font-weight="900" opacity="0.8">念</text>
+                            <text x="30" y="330" font-family="'Shippori Mincho', serif" font-size="4.8" fill="#b8860b" text-anchor="middle" font-weight="900" opacity="0.8">無</text>
+                            <text x="30" y="345" font-family="'Shippori Mincho', serif" font-size="4.8" fill="#b8860b" text-anchor="middle" font-weight="900" opacity="0.8">想</text>
+                            <text x="30" y="400" font-family="'Shippori Mincho', serif" font-size="4.8" fill="#b8860b" text-anchor="middle" font-weight="900" opacity="0.8">明</text>
+                            <text x="30" y="415" font-family="'Shippori Mincho', serif" font-size="4.8" fill="#b8860b" text-anchor="middle" font-weight="900" opacity="0.8">鏡</text>
+                            <text x="30" y="470" font-family="'Shippori Mincho', serif" font-size="4.8" fill="#b8860b" text-anchor="middle" font-weight="900" opacity="0.8">止</text>
+                            <text x="30" y="485" font-family="'Shippori Mincho', serif" font-size="4.8" fill="#b8860b" text-anchor="middle" font-weight="900" opacity="0.8">水</text>
                             <!-- Traveling Specular Glint Beam on Edge -->
                             <circle id="katana-blade-glint" cx="31" cy="90" r="3" fill="#ffffff" opacity="0" filter="url(#bladeGlowFilter)" />
                         </g>
@@ -369,13 +379,15 @@
                                 <!-- Kurikata Knot / Sageo Crimson Ribbon -->
                                 <rect x="22" y="96" width="3.5" height="12" rx="1.5" fill="#991b1b" stroke="#7f1d1d" stroke-width="0.5" />
                                 <path d="M 22 102 C 18 105, 17 115, 23 118" stroke="#dc2626" stroke-width="1.5" stroke-linecap="round" fill="none" />
-                                <!-- Main Sheath Body -->
-                                <path d="M 24.5 90 Q 24 190, 24.5 288 Q 25 320, 27 335 C 27.5 338, 32.5 338, 33 335 Q 35 320, 35.5 288 Q 36 190, 35.5 90 Z" fill="url(#sayaLacquerGrad)" stroke="#27272a" stroke-width="0.75" />
-                                <!-- Gold Crest on Saya -->
-                                <circle cx="30" cy="140" r="3.5" fill="none" stroke="url(#goldTrimGrad)" stroke-width="0.8" opacity="0.75" />
-                                <path d="M 30 137 L 30 143 M 27 140 L 33 140" stroke="url(#goldTrimGrad)" stroke-width="0.8" opacity="0.75" />
+                                <!-- Main Sheath Body (Elongated to match full blade track) -->
+                                <path d="M 24.5 90 Q 24 320, 24.5 515 Q 25 550, 27 568 C 27.5 572, 32.5 572, 33 568 Q 35 550, 35.5 515 Q 36 320, 35.5 90 Z" fill="url(#sayaLacquerGrad)" stroke="#27272a" stroke-width="0.75" />
+                                <!-- Gold Crests on Saya -->
+                                <circle cx="30" cy="150" r="3.5" fill="none" stroke="url(#goldTrimGrad)" stroke-width="0.8" opacity="0.75" />
+                                <path d="M 30 147 L 30 153 M 27 150 L 33 150" stroke="url(#goldTrimGrad)" stroke-width="0.8" opacity="0.75" />
+                                <circle cx="30" cy="340" r="3.5" fill="none" stroke="url(#goldTrimGrad)" stroke-width="0.8" opacity="0.75" />
+                                <path d="M 30 337 L 30 343 M 27 340 L 33 340" stroke="url(#goldTrimGrad)" stroke-width="0.8" opacity="0.75" />
                                 <!-- Kojiri (Scabbard Bottom Cap) -->
-                                <path d="M 26.5 330 C 26.5 336, 33.5 336, 33.5 330 Z" fill="url(#goldTrimGrad)" stroke="#111" stroke-width="0.75" />
+                                <path d="M 26.5 562 C 26.5 570, 33.5 570, 33.5 562 Z" fill="url(#goldTrimGrad)" stroke="#111" stroke-width="0.75" />
                                 <!-- Friction Spark at Koiguchi Mouth -->
                                 <circle id="katana-sheath-spark" cx="30" cy="85" r="2.8" fill="#ffd700" opacity="0" filter="url(#bladeGlowFilter)" />
                             </g>
@@ -386,7 +398,18 @@
 
             <!-- Bottom Trigger: Blade Cleave -->
             <button id="katana-rail-strike" class="katana-strike-trigger hover-glow" type="button" aria-label="Perform Katana Cleave Strike">
-                <span class="strike-trigger-icon">⚔️</span>
+                <span class="strike-trigger-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14.5 17.5L3 6V3h3l11.5 11.5" />
+                        <path d="M13 19l6-6" />
+                        <path d="M16 16l4 4" />
+                        <path d="M19 21l2-2" />
+                        <path d="M9.5 17.5L21 6V3h-3L6.5 14.5" />
+                        <path d="M11 19l-6-6" />
+                        <path d="M8 16l-4 4" />
+                        <path d="M5 21l-2-2" />
+                    </svg>
+                </span>
                 <span class="strike-trigger-label">
                     <span class="strike-text">STRIKE</span>
                     <span class="strike-kanji">一閃</span>
