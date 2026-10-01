@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Isaiah James R. Carpio // Web Developer</title>
+    <meta name="description" content="Portfolio of Isaiah James R. Carpio — Web Developer based in Zamboanga City, Philippines. Crafting responsive web applications, modern interfaces, and dependable full-stack solutions." />
+    <link rel="stylesheet" href="style.css" />
+    <!-- Samurai & Calligraphy Typography: Shippori Mincho, Cinzel, Plus Jakarta Sans, Fira Code -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800;900&family=Fira+Code:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Shippori+Mincho:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Samurai Fluid Preloader / Intro Screen with Katana Cleave Split -->
+    <div id="intro-screen" class="intro-screen" aria-label="Loading Fluid Portfolio" role="dialog" aria-modal="true">
+        <!-- Live Preloader Stage -->
+        <div id="intro-live-stage" class="intro-live-stage">
+            <canvas id="intro-shader-canvas" class="intro-shader-canvas"></canvas>
+            <div class="intro-shader-vignette"></div>
+            <div class="intro-loader-content">
+                <div class="loader-chip">RYŪGI // 流儀 // BUSHIDO SHADER ENGINE</div>
+                <div class="loader-logo">
+                    <span class="loader-kanji">侍</span>
+                    <span class="loader-title">KATANA & SUMI</span>
+                </div>
+                <div class="loader-bar-track">
+                    <div id="loader-bar" class="loader-bar"></div>
+                </div>
+                <div class="loader-footer">
+                    <span id="loader-phase" class="loader-phase">HONING THE BLADE // 研磨...</span>
+                    <span id="loader-percent" class="loader-percent">0%</span>
+                </div>
+            </div>
+            <button id="loader-skip" class="loader-skip hover-glow" type="button" aria-label="Skip Intro">DRAW BLADE [ESC] // 抜刀</button>
+        </div>
+
+        <!-- Katana Cleave Sliced Halves (Revealed and parted on 100%) -->
+        <div id="intro-slice-top" class="intro-slice-half intro-slice-top" aria-hidden="true"></div>
+        <div id="intro-slice-bottom" class="intro-slice-half intro-slice-bottom" aria-hidden="true"></div>
+        
+        <!-- Katana Slash Beam & Blinding Flash FX -->
+        <div id="intro-slash-beam" class="intro-slash-beam" aria-hidden="true"></div>
+        <div id="intro-slash-flash" class="intro-slash-flash" aria-hidden="true"></div>
+    </div>
+
+    <!-- Custom interactive katana / brush cursor -->
+    <div class="cursor">
+        <span class="cursor-blade-hanko"></span>
+    </div>
+
+    <!-- Analog grain overlay for textural depth -->
+    <div class="noise"></div>
+
+    <!-- 21st.dev Dye Whorl Interactive Navier-Stokes Fluid Background -->
+    <div id="dye-whorl-container" class="dye-whorl-bg" aria-hidden="true">
+        <canvas id="dye-whorl-canvas"></canvas>
+    </div>
+    <!-- Fallback particle canvas if WebGL2 is unsupported -->
+    <canvas id="particles-canvas" class="particles-fallback"></canvas>
+
+    <!-- Master Floating Header Navigation -->
+    <header class="site-header" id="site-header">
+        <div class="site-header-inner">
+            <a href="#hero" class="brand-link hover-glow" aria-label="Isaiah Carpio Portfolio Home">
+                <span class="logo-kamon">IJC</span>
+                <div class="brand-titles">
+                    <span class="brand-name">ISAIAH CARPIO</span>
+                    <span class="brand-spec">// WEB DEVELOPER // 武士道</span>
+                </div>
+            </a>
+
+            <!-- Status Indicator (Desktop) -->
+            <div class="header-status-pill">
+                <span class="pulse-indicator"></span>
+                <span class="status-pill-text">AVAILABLE · ZAMBOANGA CITY · UTC +8</span>
+            </div>
+
+            <!-- Central Section Navigation Links (Desktop) -->
+            <nav class="header-nav" aria-label="Main Navigation">
+                <ul class="header-nav-list">
+                    <li>
+                        <a href="#hero" class="nav-item-link active" data-section="hero">
+                            <span class="nav-num">00</span>
+                            <span class="nav-text">Intro</span>
+                            <span class="nav-kanji">参道</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#skills" class="nav-item-link" data-section="skills">
+                            <span class="nav-num">01</span>
+                            <span class="nav-text">Skills</span>
+                            <span class="nav-kanji">武芸</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#approach" class="nav-item-link" data-section="approach">
+                            <span class="nav-num">02</span>
+                            <span class="nav-text">Approach</span>
+                            <span class="nav-kanji">流儀</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#contact" class="nav-item-link" data-section="contact">
+                            <span class="nav-num">03</span>
+                            <span class="nav-text">Contact</span>
+                            <span class="nav-kanji">拝謁</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Actions Panel (Theme Toggle, Socials, Mobile Menu) -->
+            <div class="header-actions">
+                <button id="theme-toggle" class="header-btn theme-toggle-btn hover-glow" type="button" aria-label="Toggle Color Theme">
+                    <span class="theme-icon">◐</span>
+                    <span class="theme-label">THEME</span>
+                </button>
+                <div class="header-socials">
+                    <a href="https://github.com/Ixayah14" target="_blank" rel="noopener noreferrer" class="social-icon-btn hover-glow" aria-label="GitHub">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                    </a>
+                    <a href="https://www.linkedin.com/in/isaiah-james-carpio-87b88843b/" target="_blank" rel="noopener noreferrer" class="social-icon-btn hover-glow" aria-label="LinkedIn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                    </a>
+                    <a href="mailto:carpioisaiahjames@gmail.com" class="social-icon-btn hover-glow" aria-label="Email">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                    </a>
+                </div>
+                <button id="mobile-menu-btn" class="mobile-hamburger-btn hover-glow" type="button" aria-label="Toggle Mobile Menu" aria-expanded="false">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Integrated Mobile Mini Katana Unsheathing Progress -->
+        <div class="mobile-katana-progress-strip">
+            <div id="mobile-katana-blade-progress" class="mobile-katana-blade-fill"></div>
+            <span id="mobile-katana-pct" class="mobile-katana-pct">0% 抜刀</span>
+        </div>
+    </header>
+
+    <!-- Mobile Drawer Navigation Overlay -->
+    <div id="mobile-nav-drawer" class="mobile-nav-drawer" aria-hidden="true">
+        <div class="mobile-drawer-backdrop" id="mobile-drawer-backdrop"></div>
+        <div class="mobile-drawer-content">
+            <div class="mobile-drawer-header">
+                <span class="logo-kamon">IJC</span>
+                <span class="mobile-drawer-brand">ISAIAH CARPIO</span>
+                <button id="mobile-drawer-close" class="mobile-drawer-close-btn" type="button" aria-label="Close Navigation">✕</button>
+            </div>
+            <div class="mobile-drawer-status">
+                <span class="pulse-indicator"></span>
+                <span>AVAILABLE · ZAMBOANGA CITY · UTC +8</span>
+            </div>
+            <ul class="mobile-drawer-links">
+                <li><a href="#hero" class="mobile-nav-link active" data-section="hero"><span class="m-num">00</span> INTRO <span class="m-kanji">参道</span></a></li>
+                <li><a href="#skills" class="mobile-nav-link" data-section="skills"><span class="m-num">01</span> SKILLS <span class="m-kanji">武芸</span></a></li>
+                <li><a href="#approach" class="mobile-nav-link" data-section="approach"><span class="m-num">02</span> APPROACH <span class="m-kanji">流儀</span></a></li>
+                <li><a href="#contact" class="mobile-nav-link" data-section="contact"><span class="m-num">03</span> CONTACT <span class="m-kanji">拝謁</span></a></li>
+            </ul>
+            <div class="mobile-drawer-actions">
+                <button id="theme-toggle-mobile" class="drawer-action-btn hover-glow" type="button">
+                    <span class="theme-icon">◐</span> <span class="mobile-theme-text">THEME // 漆黒 DARK</span>
+                </button>
+            </div>
+            <div class="mobile-drawer-socials">
+                <a href="https://github.com/Ixayah14" target="_blank" rel="noopener noreferrer" class="social-icon-btn hover-glow" aria-label="GitHub">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                </a>
+                <a href="https://www.linkedin.com/in/isaiah-james-carpio-87b88843b/" target="_blank" rel="noopener noreferrer" class="social-icon-btn hover-glow" aria-label="LinkedIn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                </a>
+                <a href="https://www.facebook.com/khalafahmadibrahim.alamadi/" target="_blank" rel="noopener noreferrer" class="social-icon-btn hover-glow" aria-label="Facebook">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                </a>
+                <a href="mailto:carpioisaiahjames@gmail.com" class="social-icon-btn hover-glow" aria-label="Email">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pinned Scrolling Katana Unsheathing Rail (Desktop) -->
+    <aside class="katana-rail" id="katana-rail" aria-label="Katana Unsheathing Scroll Tracker">
+        <div class="katana-rail-card">
+            <!-- Top Katana HUD -->
+            <div class="katana-hud">
+                <div class="katana-hud-header">
+                    <span class="katana-hud-kanji">抜刀</span>
+                    <span class="katana-hud-title">BATTOU DEPTH</span>
+                </div>
+                <div class="katana-hud-metric">
+                    <span id="katana-depth-num" class="katana-depth-num">0%</span>
+                </div>
+                <div class="katana-hud-stance">
+                    <span id="katana-stance-text" class="katana-stance-text">居合 // IAI</span>
+                </div>
+            </div>
+
+            <!-- The Katana Apparatus and Track -->
+            <div class="katana-track-chassis" id="katana-track-chassis">
+                <!-- Section Waypoint Nodes along the blade -->
+                <div class="katana-waypoint-nodes" aria-label="Section Quick Jump">
+                    <a href="#hero" class="katana-waypoint-node active" data-section="hero" style="--wp-pct: 0%;" aria-label="Intro Section">
+                        <span class="wp-num">00</span>
+                        <span class="wp-dot"></span>
+                        <span class="wp-label">00 INTRO 参道</span>
+                    </a>
+                    <a href="#skills" class="katana-waypoint-node" data-section="skills" style="--wp-pct: 32%;" aria-label="Skills Section">
+                        <span class="wp-num">01</span>
+                        <span class="wp-dot"></span>
+                        <span class="wp-label">01 SKILLS 武芸</span>
+                    </a>
+                    <a href="#approach" class="katana-waypoint-node" data-section="approach" style="--wp-pct: 66%;" aria-label="Approach Section">
+                        <span class="wp-num">02</span>
+                        <span class="wp-dot"></span>
+                        <span class="wp-label">02 APPROACH 流儀</span>
+                    </a>
+                    <a href="#contact" class="katana-waypoint-node" data-section="contact" style="--wp-pct: 100%;" aria-label="Contact Section">
+                        <span class="wp-num">03</span>
+                        <span class="wp-dot"></span>
+                        <span class="wp-label">03 CONTACT 拝謁</span>
+                    </a>
+                </div>
+
+                <!-- Master SVG Katana: Fixed Hilt & Blade + Scroll-Sliding Scabbard (Saya) -->
+                <div class="katana-svg-stage" id="katana-svg-stage" title="Click Katana to Strike // 抜刀一撃">
+                    <svg class="katana-svg" viewBox="0 0 60 380" width="60" height="380" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <defs>
+                            <!-- Steel Blade Mirror Gradient -->
+                            <linearGradient id="bladeSteelGrad" x1="0" y1="0" x2="1" y2="0">
+                                <stop offset="0%" stop-color="#4a5568" />
+                                <stop offset="20%" stop-color="#cbd5e1" />
+                                <stop offset="45%" stop-color="#ffffff" />
+                                <stop offset="70%" stop-color="#94a3b8" />
+                                <stop offset="100%" stop-color="#334155" />
+                            </linearGradient>
+                            <!-- Razor Cutting Edge Glow -->
+                            <linearGradient id="bladeEdgeGlow" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#ffffff" />
+                                <stop offset="50%" stop-color="#f1f5f9" />
+                                <stop offset="100%" stop-color="#d9383a" />
+                            </linearGradient>
+                            <!-- Gold Habaki & Trims -->
+                            <linearGradient id="goldTrimGrad" x1="0" y1="0" x2="1" y2="1">
+                                <stop offset="0%" stop-color="#e5c07b" />
+                                <stop offset="40%" stop-color="#ffd700" />
+                                <stop offset="70%" stop-color="#b8860b" />
+                                <stop offset="100%" stop-color="#785306" />
+                            </linearGradient>
+                            <!-- Tsuka Ray Skin -->
+                            <pattern id="sameSkinPattern" width="4" height="4" patternUnits="userSpaceOnUse">
+                                <circle cx="2" cy="2" r="1" fill="#cbd5e1" opacity="0.6" />
+                            </pattern>
+                            <!-- Saya Obsidian Gloss Lacquer -->
+                            <linearGradient id="sayaLacquerGrad" x1="0" y1="0" x2="1" y2="0">
+                                <stop offset="0%" stop-color="#1e2229" />
+                                <stop offset="25%" stop-color="#2a303c" />
+                                <stop offset="50%" stop-color="#12151a" />
+                                <stop offset="85%" stop-color="#3b1d22" />
+                                <stop offset="100%" stop-color="#090a0d" />
+                            </linearGradient>
+                            <!-- Moving Specular Glint Filter -->
+                            <filter id="bladeGlowFilter" x="-20%" y="-20%" width="140%" height="140%">
+                                <feGaussianBlur stdDeviation="2" result="blur" />
+                                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                            </filter>
+                            <!-- Track Clip Path to contain sliding saya -->
+                            <clipPath id="chassisClip">
+                                <rect x="0" y="70" width="60" height="305" rx="4" />
+                            </clipPath>
+                        </defs>
+
+                        <!-- 1. Tsuka (Hilt) -->
+                        <g class="katana-tsuka-group">
+                            <!-- Kashira (Pommel cap) -->
+                            <path d="M 23 4 C 23 2, 37 2, 37 4 L 38 9 L 22 9 Z" fill="url(#goldTrimGrad)" stroke="#222" stroke-width="0.75" />
+                            <!-- Handle Core (Ray Skin) -->
+                            <rect x="23" y="9" width="14" height="54" rx="2" fill="#f1f5f9" />
+                            <rect x="23" y="9" width="14" height="54" rx="2" fill="url(#sameSkinPattern)" />
+                            <!-- Tsuka-ito Braided Cord Wrap (Diamond X motifs) -->
+                            <g stroke="#18181b" stroke-width="2.2" stroke-linecap="round">
+                                <line x1="23" y1="12" x2="37" y2="22" />
+                                <line x1="37" y1="12" x2="23" y2="22" />
+                                <line x1="23" y1="22" x2="37" y2="32" />
+                                <line x1="37" y1="22" x2="23" y2="32" />
+                                <line x1="23" y1="32" x2="37" y2="42" />
+                                <line x1="37" y1="32" x2="23" y2="42" />
+                                <line x1="23" y1="42" x2="37" y2="52" />
+                                <line x1="37" y1="42" x2="23" y2="52" />
+                                <line x1="23" y1="52" x2="37" y2="62" />
+                                <line x1="37" y1="52" x2="23" y2="62" />
+                            </g>
+                            <!-- Gold Menuki (Ornaments inside diamond windows) -->
+                            <circle cx="30" cy="27" r="1.8" fill="url(#goldTrimGrad)" />
+                            <circle cx="30" cy="47" r="1.8" fill="url(#goldTrimGrad)" />
+                            <!-- Fuchi (Collar sleeve) -->
+                            <rect x="22" y="63" width="16" height="5" rx="1" fill="url(#goldTrimGrad)" stroke="#111" stroke-width="0.7" />
+                        </g>
+
+                        <!-- 2. Tsuba (Handguard) -->
+                        <g class="katana-tsuba-group">
+                            <ellipse cx="30" cy="68" rx="11" ry="3" fill="#b8860b" />
+                            <ellipse cx="30" cy="71" rx="22" ry="6" fill="#14171c" stroke="url(#goldTrimGrad)" stroke-width="1.2" />
+                            <ellipse cx="21" cy="71" rx="3.5" ry="2" fill="#090a0d" />
+                            <ellipse cx="39" cy="71" rx="3.5" ry="2" fill="#090a0d" />
+                            <ellipse cx="30" cy="74" rx="10" ry="2.5" fill="#b8860b" />
+                        </g>
+
+                        <!-- 3. Habaki (Blade Collar) -->
+                        <polygon points="26,75 34,75 33,86 27,86" fill="url(#goldTrimGrad)" stroke="#553c06" stroke-width="0.5" />
+
+                        <!-- 4. The Katana Blade (Nagasa) - Tamahagane Mirror Steel -->
+                        <g class="katana-blade-group" id="katana-blade-group">
+                            <!-- Main Blade Profile -->
+                            <path d="M 27 86 Q 26.5 190, 27 285 Q 27.5 315, 30 326 C 29.5 320, 29 270, 31 190 Q 32.5 130, 33 86 Z" fill="url(#bladeSteelGrad)" stroke="#64748b" stroke-width="0.5" />
+                            <!-- Bo-hi (Blood Groove) -->
+                            <path d="M 28 88 Q 28 180, 28.5 270" stroke="#1e293b" stroke-width="1" stroke-linecap="round" opacity="0.75" />
+                            <!-- Wavy Hamon (Clay-tempered undulating crystalline edge line) -->
+                            <path d="M 31.5 86 Q 32 105, 31 115 Q 32.5 125, 31 135 Q 32.8 145, 30.8 155 Q 32.5 165, 31 175 Q 32.5 185, 30.5 195 Q 32.2 205, 30.8 215 Q 32.4 225, 30.5 235 Q 32 245, 30.2 255 Q 31.8 265, 30 275 Q 31.5 285, 29.5 295 Q 31 305, 29.5 315 L 30 326" fill="none" stroke="#ffffff" stroke-width="0.9" opacity="0.85" filter="url(#bladeGlowFilter)" />
+                            <!-- Cutting Edge Luminous Shimmer Line -->
+                            <path d="M 32.5 86 Q 32.8 190, 31 285 Q 30.5 310, 30 326" stroke="url(#bladeEdgeGlow)" stroke-width="0.8" opacity="0.95" />
+                            <!-- Gold Kanji Engraved onto Steel -->
+                            <text x="30" y="118" font-family="'Shippori Mincho', serif" font-size="5" fill="#b8860b" text-anchor="middle" font-weight="900" opacity="0.85">武</text>
+                            <text x="30" y="128" font-family="'Shippori Mincho', serif" font-size="5" fill="#b8860b" text-anchor="middle" font-weight="900" opacity="0.85">士</text>
+                            <text x="30" y="138" font-family="'Shippori Mincho', serif" font-size="5" fill="#b8860b" text-anchor="middle" font-weight="900" opacity="0.85">道</text>
+                            <!-- Traveling Specular Glint Beam on Edge -->
+                            <circle id="katana-blade-glint" cx="31" cy="90" r="3" fill="#ffffff" opacity="0" filter="url(#bladeGlowFilter)" />
+                        </g>
+
+                        <!-- 5. The Scabbard / Sheath (Saya) - Clipped to chassis and translates smoothly on scroll! -->
+                        <g clip-path="url(#chassisClip)">
+                            <g id="katana-saya-sheath" class="katana-saya-sheath">
+                                <!-- Koiguchi (Scabbard Mouth Collar) -->
+                                <path d="M 24 85 C 24 83, 36 83, 36 85 L 35.5 90 L 24.5 90 Z" fill="url(#goldTrimGrad)" stroke="#111" stroke-width="0.75" />
+                                <!-- Kurikata Knot / Sageo Crimson Ribbon -->
+                                <rect x="22" y="96" width="3.5" height="12" rx="1.5" fill="#991b1b" stroke="#7f1d1d" stroke-width="0.5" />
+                                <path d="M 22 102 C 18 105, 17 115, 23 118" stroke="#dc2626" stroke-width="1.5" stroke-linecap="round" fill="none" />
+                                <!-- Main Sheath Body -->
+                                <path d="M 24.5 90 Q 24 190, 24.5 288 Q 25 320, 27 335 C 27.5 338, 32.5 338, 33 335 Q 35 320, 35.5 288 Q 36 190, 35.5 90 Z" fill="url(#sayaLacquerGrad)" stroke="#27272a" stroke-width="0.75" />
+                                <!-- Gold Crest on Saya -->
+                                <circle cx="30" cy="140" r="3.5" fill="none" stroke="url(#goldTrimGrad)" stroke-width="0.8" opacity="0.75" />
+                                <path d="M 30 137 L 30 143 M 27 140 L 33 140" stroke="url(#goldTrimGrad)" stroke-width="0.8" opacity="0.75" />
+                                <!-- Kojiri (Scabbard Bottom Cap) -->
+                                <path d="M 26.5 330 C 26.5 336, 33.5 336, 33.5 330 Z" fill="url(#goldTrimGrad)" stroke="#111" stroke-width="0.75" />
+                                <!-- Friction Spark at Koiguchi Mouth -->
+                                <circle id="katana-sheath-spark" cx="30" cy="85" r="2.8" fill="#ffd700" opacity="0" filter="url(#bladeGlowFilter)" />
+                            </g>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Bottom Trigger: Blade Cleave -->
+            <button id="katana-rail-strike" class="katana-strike-trigger hover-glow" type="button" aria-label="Perform Katana Cleave Strike">
+                <span class="strike-trigger-icon">⚔️</span>
+                <span class="strike-trigger-label">
+                    <span class="strike-text">STRIKE</span>
+                    <span class="strike-kanji">一閃</span>
+                </span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Portfolio Layout Container (Flows to the right of Sidebar) -->
+    <div class="portfolio-container">
+        <main class="portfolio-main">
+            <!-- Section 0: Hero -->
+            <section id="hero" class="hero-section reveal-on-scroll">
+                <div class="hero-content">
+                    <div class="hero-kicker-row">
+                        <span class="hanko-seal" title="Artisan Seal">印</span>
+                        <span class="kicker">WEB DEVELOPER · MODERN WEB SYSTEMS // 武士道と計算力学</span>
+                    </div>
+                    
+                    <h1 class="hero-title">
+                        Isaiah James R. Carpio
+                    </h1>
+                    
+                    <h2 class="hero-role">
+                        Web Developer
+                    </h2>
+
+                    <p class="hero-subtitle">
+                        Crafting modern web experiences, responsive user interfaces, and dependable full-stack applications with clean architecture and precision. Based in Zamboanga City, Philippines.
+                    </p>
+                    
+                    <div class="hero-cta-group">
+                        <a href="#contact" class="btn-primary hover-glow">
+                            <span class="btn-text">GET IN TOUCH // 拝謁</span>
+                        </a>
+                        <a href="#skills" class="btn-secondary hover-glow">
+                            <span class="btn-text">EXPLORE SKILLS // 武芸</span>
+                        </a>
+                    </div>
+                    
+                    <div class="hero-status-bar">
+                        <span class="status-item"><span class="pulse-indicator"></span> ZAMBOANGA CITY, PHILIPPINES · UTC +8</span>
+                    </div>
+                    
+                    <div class="scroll-indicator">
+                        <span class="scroll-arrow">↓</span> SCROLL TO EXPLORE // 参道
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Section 1: Skills & Technologies (Interactive Bento Arsenal) -->
+            <section id="skills" class="section reveal-on-scroll">
+                <div class="section-kicker">01 // STACK & CAPABILITIES // 武芸百般</div>
+                <div class="skills-section-header">
+                    <div class="skills-header-copy">
+                        <h2 class="section-title">Technical Skills & Arsenal</h2>
+                        <p class="section-desc">Languages, reactive frameworks, runtime engines, and core development tools I work with as I continuously build and sharpen my software engineering skills.</p>
+                    </div>
+                </div>
+
+                <div class="katana-divider"></div>
+                
+                <!-- Master Asymmetric Bento Arsenal -->
+                <div class="skills-bento-grid">
+                    <!-- Zone A: Core Weaponry Matrix (7 Cols on desktop) -->
+                    <div class="card glass skills-bento-hero observe slide-in">
+                        <div class="bento-box-header">
+                            <div class="box-tag">
+                                <span class="pulse-indicator"></span>
+                                <span>PRIMARY ARMAMENT // 本流兵装</span>
+                            </div>
+                            <span class="box-kanji-watermark">鍛冶</span>
+                        </div>
+                        <h3 class="bento-box-title">Core Technology Matrix</h3>
+                        <p class="bento-box-desc">Hover or tap any primary weapon below to inspect its architecture, engineering standards, and real-time execution manifest.</p>
+                        
+                        <div class="tech-weapons-grid" id="tech-weapons-grid">
+                            <!-- Tech 1: JavaScript -->
+                            <div class="tech-weapon-tile active" data-tech="javascript" data-category="frontend" tabindex="0" role="button" aria-pressed="true">
+                                <div class="weapon-header">
+                                    <div class="weapon-icon js-brand">JS</div>
+                                    <span class="weapon-level">80% · PROFICIENT</span>
+                                </div>
+                                <div class="weapon-name">JavaScript (ES6+)</div>
+                                <div class="weapon-archetype">Execution Engine // 瞬発</div>
+                                <div class="weapon-meter-track">
+                                    <div class="weapon-meter-fill" style="width: 80%;"></div>
+                                </div>
+                            </div>
+
+                            <!-- Tech 2: TypeScript -->
+                            <div class="tech-weapon-tile" data-tech="typescript" data-category="frontend" tabindex="0" role="button" aria-pressed="false">
+                                <div class="weapon-header">
+                                    <div class="weapon-icon ts-brand">TS</div>
+                                    <span class="weapon-level">74% · INTERMEDIATE</span>
+                                </div>
+                                <div class="weapon-name">TypeScript</div>
+                                <div class="weapon-archetype">Type Safety // 剛健</div>
+                                <div class="weapon-meter-track">
+                                    <div class="weapon-meter-fill" style="width: 74%;"></div>
+                                </div>
+                            </div>
+
+                            <!-- Tech 3: React.js -->
+                            <div class="tech-weapon-tile" data-tech="react" data-category="frontend" tabindex="0" role="button" aria-pressed="false">
+                                <div class="weapon-header">
+                                    <div class="weapon-icon react-brand">⚛</div>
+                                    <span class="weapon-level">78% · PROFICIENT</span>
+                                </div>
+                                <div class="weapon-name">React.js</div>
+                                <div class="weapon-archetype">Reactive Architecture // 構造</div>
+                                <div class="weapon-meter-track">
+                                    <div class="weapon-meter-fill" style="width: 78%;"></div>
+                                </div>
+                            </div>
+
+                            <!-- Tech 4: Tailwind CSS -->
+                            <div class="tech-weapon-tile" data-tech="tailwind" data-category="frontend" tabindex="0" role="button" aria-pressed="false">
+                                <div class="weapon-header">
+                                    <div class="weapon-icon tw-brand">TW</div>
+                                    <span class="weapon-level">82% · PROFICIENT</span>
+                                </div>
+                                <div class="weapon-name">Tailwind CSS</div>
+                                <div class="weapon-archetype">Fluid Utility Styling // 流麗</div>
+                                <div class="weapon-meter-track">
+                                    <div class="weapon-meter-fill" style="width: 82%;"></div>
+                                </div>
+                            </div>
+
+                            <!-- Tech 5: HTML5 & Modern CSS3 (Portfolio Core Architecture) -->
+                            <div class="tech-weapon-tile" data-tech="html-css" data-category="frontend" tabindex="0" role="button" aria-pressed="false">
+                                <div class="weapon-header">
+                                    <div class="weapon-icon html-brand">HTML</div>
+                                    <span class="weapon-level">84% · PROFICIENT</span>
+                                </div>
+                                <div class="weapon-name">HTML5 & Modern CSS3</div>
+                                <div class="weapon-archetype">Semantic UI & Styling // 骨格</div>
+                                <div class="weapon-meter-track">
+                                    <div class="weapon-meter-fill" style="width: 84%;"></div>
+                                </div>
+                            </div>
+
+                            <!-- Tech 6: WebGL & GLSL Shaders (Portfolio Fluid Engine) -->
+                            <div class="tech-weapon-tile" data-tech="webgl" data-category="frontend" tabindex="0" role="button" aria-pressed="false">
+                                <div class="weapon-header">
+                                    <div class="weapon-icon webgl-brand">GLSL</div>
+                                    <span class="weapon-level">76% · INTERMEDIATE</span>
+                                </div>
+                                <div class="weapon-name">WebGL & GLSL Shaders</div>
+                                <div class="weapon-archetype">Fluid Dynamics & Canvas // 墨痕</div>
+                                <div class="weapon-meter-track">
+                                    <div class="weapon-meter-fill" style="width: 76%;"></div>
+                                </div>
+                            </div>
+
+                            <!-- Tech 7: Node.js & Express -->
+                            <div class="tech-weapon-tile" data-tech="nodejs" data-category="backend" tabindex="0" role="button" aria-pressed="false">
+                                <div class="weapon-header">
+                                    <div class="weapon-icon node-brand">NODE</div>
+                                    <span class="weapon-level">75% · INTERMEDIATE</span>
+                                </div>
+                                <div class="weapon-name">Node.js & Express</div>
+                                <div class="weapon-archetype">Runtimes & REST APIs // 中枢</div>
+                                <div class="weapon-meter-track">
+                                    <div class="weapon-meter-fill" style="width: 75%;"></div>
+                                </div>
+                            </div>
+
+                            <!-- Tech 8: PostgreSQL & Relational DBs -->
+                            <div class="tech-weapon-tile" data-tech="postgresql" data-category="backend" tabindex="0" role="button" aria-pressed="false">
+                                <div class="weapon-header">
+                                    <div class="weapon-icon pg-brand">SQL</div>
+                                    <span class="weapon-level">70% · FOUNDATIONAL</span>
+                                </div>
+                                <div class="weapon-name">PostgreSQL & MySQL</div>
+                                <div class="weapon-archetype">Data Layer & Schemas // 根基</div>
+                                <div class="weapon-meter-track">
+                                    <div class="weapon-meter-fill" style="width: 70%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Zone B: Live Forge Inspector Terminal (5 Cols on desktop) -->
+                    <div class="card glass skills-bento-inspector observe slide-in">
+                        <div class="inspector-terminal-bar">
+                            <div class="terminal-dots">
+                                <span class="term-dot red"></span>
+                                <span class="term-dot yellow"></span>
+                                <span class="term-dot green"></span>
+                            </div>
+                            <div class="terminal-title">FORGE_INSPECTOR // 仕様目録</div>
+                            <div class="terminal-pulse">LIVE</div>
+                        </div>
+
+                        <div class="inspector-body" id="inspector-display">
+                            <div class="inspector-header">
+                                <div class="inspector-avatar js-avatar" id="inspector-avatar">JS</div>
+                                <div class="inspector-titles">
+                                    <div class="inspector-tag" id="inspector-tag">FRONTEND RUNTIME & LOGIC</div>
+                                    <h4 class="inspector-tech-title" id="inspector-name">JavaScript (ES6+)</h4>
+                                    <div class="inspector-kanji-badge" id="inspector-kanji">瞬発力 // EXECUTION ENGINE</div>
+                                </div>
+                            </div>
+
+                            <div class="inspector-meta-grid">
+                                <div class="inspector-meta-item">
+                                    <span class="meta-label">DISCIPLINE</span>
+                                    <span class="meta-value" id="inspector-discipline">Core Web Development</span>
+                                </div>
+                                <div class="inspector-meta-item">
+                                    <span class="meta-label">PROFICIENCY</span>
+                                    <span class="meta-value accent" id="inspector-level">80% · Practical Proficiency</span>
+                                </div>
+                            </div>
+
+                            <div class="inspector-spec-box">
+                                <div class="spec-label">// ARCHITECTURAL CAPABILITY</div>
+                                <p class="spec-desc" id="inspector-desc">
+                                    Solid, growing foundation in modern ECMAScript standards, asynchronous control flow (async/await, promises), DOM manipulation, and interactive web application logic.
+                                </p>
+                                <div class="spec-tags" id="inspector-tags">
+                                    <span class="spec-pill">ES6+</span>
+                                    <span class="spec-pill">Async/Await</span>
+                                    <span class="spec-pill">DOM APIs</span>
+                                    <span class="spec-pill">Fetch / REST</span>
+                                    <span class="spec-pill">Event Loop</span>
+                                </div>
+                            </div>
+
+                            <div class="inspector-status-row">
+                                <span class="status-indicator-dot"></span>
+                                <span class="status-terminal-text" id="inspector-status">ACTIVE IN PROJECTS · CONTINUOUSLY EXPANDING</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Zone C: Engineering Proficiencies & Segmented Meters (6 Cols) -->
+                    <div class="card glass skills-bento-disciplines observe slide-in">
+                        <div class="bento-box-header">
+                            <div class="box-tag">
+                                <span class="pulse-indicator"></span>
+                                <span>CORE DISCIPLINES // 領域能力</span>
+                            </div>
+                            <span class="box-kanji-watermark">練達</span>
+                        </div>
+                        <h3 class="bento-box-title">Engineering Focus Areas</h3>
+                        <p class="bento-box-desc">Key disciplines I actively practice, refine, and build upon in my daily web development workflow.</p>
+                        
+                        <div class="discipline-meter-list">
+                            <div class="discipline-meter-item" data-category="frontend">
+                                <div class="discipline-info">
+                                    <span class="discipline-name"><span class="d-icon">⚔️</span> Modern Responsive UI & Component Architecture</span>
+                                    <span class="discipline-pct">82%</span>
+                                </div>
+                                <div class="segmented-track" style="--track-pct: 82%;">
+                                    <div class="segmented-fill"></div>
+                                </div>
+                            </div>
+
+                            <div class="discipline-meter-item" data-category="backend">
+                                <div class="discipline-info">
+                                    <span class="discipline-name"><span class="d-icon">⚡</span> RESTful API Design & Server Middleware</span>
+                                    <span class="discipline-pct">76%</span>
+                                </div>
+                                <div class="segmented-track" style="--track-pct: 76%;">
+                                    <div class="segmented-fill"></div>
+                                </div>
+                            </div>
+
+                            <div class="discipline-meter-item" data-category="backend">
+                                <div class="discipline-info">
+                                    <span class="discipline-name"><span class="d-icon">🗄️</span> Relational Data Modeling & Query Architecture</span>
+                                    <span class="discipline-pct">70%</span>
+                                </div>
+                                <div class="segmented-track" style="--track-pct: 70%;">
+                                    <div class="segmented-fill"></div>
+                                </div>
+                            </div>
+
+                            <div class="discipline-meter-item" data-category="devops">
+                                <div class="discipline-info">
+                                    <span class="discipline-name"><span class="d-icon">☁️</span> Cloud Hosting & Automated CI/CD Deployments</span>
+                                    <span class="discipline-pct">74%</span>
+                                </div>
+                                <div class="segmented-track" style="--track-pct: 74%;">
+                                    <div class="segmented-fill"></div>
+                                </div>
+                            </div>
+
+                            <div class="discipline-meter-item" data-category="tools">
+                                <div class="discipline-info">
+                                    <span class="discipline-name"><span class="d-icon">🛡️</span> Application Security, Sanitization & Audit Hygiene</span>
+                                    <span class="discipline-pct">72%</span>
+                                </div>
+                                <div class="segmented-track" style="--track-pct: 72%;">
+                                    <div class="segmented-fill"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Zone D: Tooling, Cloud & Production Artifacts (6 Cols) -->
+                    <div class="card glass skills-bento-tools observe slide-in">
+                        <div class="bento-box-header">
+                            <div class="box-tag">
+                                <span class="pulse-indicator"></span>
+                                <span>TOOLING & ECOSYSTEM // 道具百選</span>
+                            </div>
+                            <span class="box-kanji-watermark">道具</span>
+                        </div>
+                        <h3 class="bento-box-title">Ecosystem & Workflow Tools</h3>
+                        <p class="bento-box-desc">The software engineering tools, cloud hosting environments, and testing suites I utilize daily to maintain high software velocity.</p>
+
+                        <div class="tools-tag-cloud" id="tools-tag-cloud">
+                            <div class="tool-badge-chip" data-category="devops"><span class="tool-ico">⎇</span> Git & GitHub</div>
+                            <div class="tool-badge-chip" data-category="devops"><span class="tool-ico">▲</span> Vercel</div>
+                            <div class="tool-badge-chip" data-category="devops"><span class="tool-ico">🌐</span> Netlify</div>
+                            <div class="tool-badge-chip" data-category="backend"><span class="tool-ico">⚡</span> Supabase</div>
+                            <div class="tool-badge-chip" data-category="backend"><span class="tool-ico">🔥</span> Firebase</div>
+                            <div class="tool-badge-chip" data-category="tools"><span class="tool-ico">🚀</span> Postman</div>
+                            <div class="tool-badge-chip" data-category="tools"><span class="tool-ico">🛠️</span> Chrome DevTools</div>
+                            <div class="tool-badge-chip" data-category="devops"><span class="tool-ico">💻</span> Linux & Bash</div>
+                            <div class="tool-badge-chip" data-category="frontend"><span class="tool-ico">⚡</span> Vite</div>
+                            <div class="tool-badge-chip" data-category="backend"><span class="tool-ico">📦</span> npm / Node</div>
+                            <div class="tool-badge-chip" data-category="tools"><span class="tool-ico">🧪</span> Vitest / Jest</div>
+                            <div class="tool-badge-chip" data-category="frontend"><span class="tool-ico">🎨</span> Figma Spec</div>
+                            <div class="tool-badge-chip" data-category="frontend"><span class="tool-ico">📄</span> HTML5 Semantic</div>
+                            <div class="tool-badge-chip" data-category="frontend"><span class="tool-ico">✨</span> CSS3 Grid/Flex</div>
+                            <div class="tool-badge-chip" data-category="backend"><span class="tool-ico">🔒</span> JWT & Auth</div>
+                            <div class="tool-badge-chip" data-category="tools"><span class="tool-ico">🎯</span> Lighthouse Audits</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        <!-- Section 2: Development Approach / Philosophy -->
+        <section id="approach" class="section reveal-on-scroll">
+            <div class="section-kicker">02 // DEVELOPMENT APPROACH // 流儀</div>
+            <h2 class="section-title">Architectural Philosophy</h2>
+            <p class="section-desc">Key principles guiding my workflow, system design decisions, and day-to-day code craftsmanship.</p>
+            <div class="katana-divider"></div>
+            
+            <div class="approach-grid stagger-parent">
+                <div class="card glass approach-card observe slide-in">
+                    <div class="approach-number">01</div>
+                    <div class="approach-header">
+                        <span class="approach-kamon">型</span>
+                        <h3 class="approach-title">Clean Code & Semantic Architecture</h3>
+                    </div>
+                    <p class="approach-body">
+                        Building modular, readable codebases with clean structure so applications remain easy to understand, maintain, and extend as they grow.
+                    </p>
+                </div>
+
+                <div class="card glass approach-card observe slide-in">
+                    <div class="approach-number">02</div>
+                    <div class="approach-header">
+                        <span class="approach-kamon">速</span>
+                        <h3 class="approach-title">Fast, Fluid & Mobile-First</h3>
+                    </div>
+                    <p class="approach-body">
+                        Prioritizing lightweight asset loading, touch responsiveness, and pixel-perfect layouts across every device screen size from smartphones to widescreen displays.
+                    </p>
+                </div>
+
+                <div class="card glass approach-card observe slide-in">
+                    <div class="approach-number">03</div>
+                    <div class="approach-header">
+                        <span class="approach-kamon">守</span>
+                        <h3 class="approach-title">User-Centric & Reliable Delivery</h3>
+                    </div>
+                    <p class="approach-body">
+                        Designing intuitive user experiences that respect accessibility guidelines, fast feedback states, and dependable error handling at every layer.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Contact / Get in Touch -->
+        <section id="contact" class="section reveal-on-scroll">
+            <div class="section-kicker">03 // CONTACT // 拝謁</div>
+            <h2 class="section-title">Get in Touch</h2>
+            <p class="section-desc">Have a project in mind, a question, or a collaboration opportunity? My inbox is always open.</p>
+            <div class="katana-divider"></div>
+            
+            <div class="contact-bento-layout stagger-parent">
+                <!-- Left Column: Contact Details -->
+                <div class="card glass contact-details-panel observe slide-in">
+                    <span class="contact-hanko-seal">拝謁</span>
+                    <h3 class="panel-heading">Direct Contact</h3>
+                    <p class="panel-sub">Feel free to email me directly or connect through my social profiles. I typically respond within 24 hours.</p>
+
+                    <div class="contact-links-list">
+                        <a href="mailto:carpioisaiahjames@gmail.com" class="contact-link-row hover-glow">
+                            <span class="contact-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                            </span>
+                            <div class="contact-text">
+                                <span class="contact-label">Email</span>
+                                <span class="contact-value">carpioisaiahjames@gmail.com</span>
+                            </div>
+                        </a>
+
+                        <div class="contact-link-row">
+                            <span class="contact-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                            </span>
+                            <div class="contact-text">
+                                <span class="contact-label">Location / Timezone</span>
+                                <span class="contact-value">Zamboanga City, Philippines · UTC +8 (PHT)</span>
+                            </div>
+                        </div>
+
+                        <a href="https://github.com/Ixayah14" target="_blank" rel="noopener noreferrer" class="contact-link-row hover-glow">
+                            <span class="contact-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                            </span>
+                            <div class="contact-text">
+                                <span class="contact-label">GitHub</span>
+                                <span class="contact-value">github.com/Ixayah14</span>
+                            </div>
+                        </a>
+
+                        <a href="https://www.linkedin.com/in/isaiah-james-carpio-87b88843b/" target="_blank" rel="noopener noreferrer" class="contact-link-row hover-glow">
+                            <span class="contact-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                            </span>
+                            <div class="contact-text">
+                                <span class="contact-label">LinkedIn</span>
+                                <span class="contact-value">linkedin.com/in/isaiah-james-carpio</span>
+                            </div>
+                        </a>
+
+                        <a href="https://www.facebook.com/khalafahmadibrahim.alamadi/" target="_blank" rel="noopener noreferrer" class="contact-link-row hover-glow">
+                            <span class="contact-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                            </span>
+                            <div class="contact-text">
+                                <span class="contact-label">Facebook</span>
+                                <span class="contact-value">facebook.com/khalafahmadibrahim</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right Column: Interactive Send a Message Form -->
+                <div class="card glass contact-form-panel observe slide-in">
+                    <h3 class="panel-heading">Send a Message</h3>
+                    <p class="panel-sub">Leave a message and I will reply as soon as possible.</p>
+
+                    <form id="contact-form" class="message-form" onsubmit="event.preventDefault(); alert('Message dispatched! Thank you.');">
+                        <div class="form-row-2">
+                            <div class="form-group">
+                                <label for="name" class="form-label">FULL NAME</label>
+                                <input type="text" id="name" name="name" class="form-input" placeholder="Your Name" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="company" class="form-label">COMPANY / ORGANIZATION</label>
+                                <input type="text" id="company" name="company" class="form-input" placeholder="Company Name" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email" class="form-label">EMAIL ADDRESS</label>
+                            <input type="email" id="email" name="email" class="form-input" placeholder="you@domain.com" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message" class="form-label">MESSAGE</label>
+                            <textarea id="message" name="message" class="form-textarea" rows="5" placeholder="Your message or inquiry..." required></textarea>
+                        </div>
+
+                        <div class="form-submit-row">
+                            <button type="submit" class="btn-primary hover-glow">
+                                <span class="btn-text">SEND MESSAGE // 送信 →</span>
+                            </button>
+                            <span class="delivery-notice">Direct inbox delivery</span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer reveal-on-scroll">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <span class="logo-kamon-small">IJC</span>
+                <div>
+                    <span class="footer-name">ISAIAH JAMES R. CARPIO</span>
+                    <p class="footer-desc">Web Developer based in Zamboanga City, Philippines. Building responsive web applications and clean, dependable interfaces.</p>
+                </div>
+            </div>
+            <div class="footer-nav-groups">
+                <div class="footer-nav-col">
+                    <span class="footer-col-title">NAVIGATION</span>
+                    <a href="#skills" class="footer-link">Skills</a>
+                    <a href="#approach" class="footer-link">Approach</a>
+                    <a href="#contact" class="footer-link">Contact</a>
+                </div>
+                <div class="footer-nav-col">
+                    <span class="footer-col-title">CONNECT</span>
+                    <a href="https://github.com/Ixayah14" target="_blank" rel="noopener noreferrer" class="footer-link">GitHub</a>
+                    <a href="https://www.linkedin.com/in/isaiah-james-carpio-87b88843b/" target="_blank" rel="noopener noreferrer" class="footer-link">LinkedIn</a>
+                    <a href="https://www.facebook.com/khalafahmadibrahim.alamadi/" target="_blank" rel="noopener noreferrer" class="footer-link">Facebook</a>
+                    <a href="mailto:carpioisaiahjames@gmail.com" class="footer-link">Email</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom-bar">
+            <span>© 2026 ISAIAH JAMES R. CARPIO. ALL RIGHTS RESERVED.</span>
+            <a href="#" class="back-to-top-btn hover-glow">BACK TO TOP ↑</a>
+        </div>
+    </footer>
+    </div> <!-- /.portfolio-container -->
+
+    <!-- Katana Blade Strike Screen Slash Overlay -->
+    <div id="katana-strike-overlay" class="katana-strike-overlay" aria-hidden="true">
+        <div class="katana-slash-blade"></div>
+        <div class="katana-kanji-seal">
+            <span class="seal-kanji">抜刀一閃</span>
+            <span class="seal-sub">KATANA INK STRIKE // 一刀両断</span>
+        </div>
+    </div>
+
+    <!-- Interactive Ink Brush Toast Notification -->
+    <div id="ink-toast" class="ink-toast" role="status" aria-live="polite">
+        <span class="ink-toast-icon">🖌️</span>
+        <span id="ink-toast-text" class="ink-toast-text">SUMI-E BRUSH ACTIVE</span>
+    </div>
+
+    <!-- Scripts -->
+    <script src="dye-whorl.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
