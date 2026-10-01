@@ -656,7 +656,115 @@ function initOpeningIntro() {
         }
     }, 45);
 
-    // Cinematic Katana Slash Slice: At 100%, slice the intro into two halves!
+    // Synthesize an authentic, metallic Katana air slash and impact sound using Web Audio API
+    function playKatanaSlashSound() {
+        try {
+            const AudioCtx = window.AudioContext || window.webkitAudioContext;
+            if (!AudioCtx) return;
+            const ctx = new AudioCtx();
+            if (ctx.state === 'suspended') {
+                ctx.resume();
+            }
+
+            const now = ctx.currentTime;
+
+            // 1. Air blade whoosh (filtered white noise burst)
+            const bufferSize = Math.floor(ctx.sampleRate * 0.35);
+            const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+            const output = noiseBuffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) {
+                output[i] = Math.random() * 2 - 1;
+            }
+
+            const whiteNoise = ctx.createBufferSource();
+            whiteNoise.buffer = noiseBuffer;
+
+            const filter = ctx.createBiquadFilter();
+            filter.type = 'bandpass';
+            filter.frequency.setValueAtTime(700, now);
+            filter.frequency.exponentialRampToValueAtTime(3400, now + 0.07);
+            filter.frequency.exponentialRampToValueAtTime(350, now + 0.32);
+            filter.Q.setValueAtTime(3.8, now);
+
+            const noiseGain = ctx.createGain();
+            noiseGain.gain.setValueAtTime(0.01, now);
+            noiseGain.gain.linearRampToValueAtTime(0.85, now + 0.04);
+            noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 0.32);
+
+            whiteNoise.connect(filter);
+            filter.connect(noiseGain);
+            noiseGain.connect(ctx.destination);
+            whiteNoise.start(now);
+
+            // 2. High-frequency metallic steel blade resonance (sharp "SHIIING")
+            const steelOsc = ctx.createOscillator();
+            const steelGain = ctx.createGain();
+            steelOsc.type = 'sine';
+            steelOsc.frequency.setValueAtTime(2600, now + 0.02);
+            steelOsc.frequency.exponentialRampToValueAtTime(1200, now + 0.48);
+
+            steelGain.gain.setValueAtTime(0.01, now + 0.02);
+            steelGain.gain.linearRampToValueAtTime(0.45, now + 0.05);
+            steelGain.gain.exponentialRampToValueAtTime(0.001, now + 0.48);
+
+            steelOsc.connect(steelGain);
+            steelGain.connect(ctx.destination);
+            steelOsc.start(now + 0.02);
+            steelOsc.stop(now + 0.48);
+
+            // 3. Low-frequency punch / physical impact
+            const subOsc = ctx.createOscillator();
+            const subGain = ctx.createGain();
+            subOsc.type = 'triangle';
+            subOsc.frequency.setValueAtTime(130, now + 0.02);
+            subOsc.frequency.exponentialRampToValueAtTime(45, now + 0.28);
+
+            subGain.gain.setValueAtTime(0.6, now + 0.02);
+            subGain.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
+
+            subOsc.connect(subGain);
+            subGain.connect(ctx.destination);
+            subOsc.start(now + 0.02);
+            subOsc.stop(now + 0.28);
+        } catch (e) {
+            // Audio context restricted or unavailable; continue smoothly
+        }
+    }
+
+    // Spawn sparks radiating outward from along the diagonal cut line
+    function spawnCutSparks(container) {
+        if (!container) return;
+        container.innerHTML = '';
+        const sparkCount = 26;
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+
+        for (let i = 0; i < sparkCount; i++) {
+            const spark = document.createElement('span');
+            spark.className = 'slash-spark-particle';
+
+            // Point along diagonal from (w*1.0, h*0.38) to (0, h*0.62)
+            const t = Math.random();
+            const x = (1 - t) * (w * 0.95) + t * (w * 0.05);
+            const y = (1 - t) * (h * 0.40) + t * (h * 0.60);
+
+            // Burst outward perpendicularly
+            const angle = (Math.random() - 0.5) * Math.PI + Math.PI / 4;
+            const dist = 40 + Math.random() * 120;
+            const tx = Math.cos(angle) * dist;
+            const ty = Math.sin(angle) * dist;
+
+            spark.style.left = `${x}px`;
+            spark.style.top = `${y}px`;
+            spark.style.setProperty('--tx', `${tx}px`);
+            spark.style.setProperty('--ty', `${ty}px`);
+            spark.style.animationDelay = `${Math.random() * 0.06}s`;
+
+            container.appendChild(spark);
+        }
+    }
+
+    // Cinematic Katana Slash Slice: At 100%, slice the intro visibly in two and reveal portfolio!
     function finishIntro() {
         if (isFinished) return;
         isFinished = true;
@@ -671,11 +779,15 @@ function initOpeningIntro() {
         const introLiveStage = document.getElementById('intro-live-stage');
         const introSliceTop = document.getElementById('intro-slice-top');
         const introSliceBottom = document.getElementById('intro-slice-bottom');
-        const introSlashBeam = document.getElementById('intro-slash-beam');
+        const introSlashSvg = document.getElementById('intro-slash-svg');
         const introSlashFlash = document.getElementById('intro-slash-flash');
+        const introSlashSparks = document.getElementById('intro-slash-sparks');
 
-        if (introLiveStage && introSliceTop && introSliceBottom && introSlashBeam && introSlashFlash) {
+        if (introLiveStage && introSliceTop && introSliceBottom && introSlashSvg && introSlashFlash) {
             try {
+                // Play metallic katana air slice
+                playKatanaSlashSound();
+
                 // 1. Snapshot the shader canvas frame
                 let snapshot = '';
                 try {
@@ -703,37 +815,52 @@ function initOpeningIntro() {
                 introSliceTop.style.display = 'block';
                 introSliceBottom.style.display = 'block';
 
-                // 4. Trigger the blinding Katana slash beam & screen shake
-                introSlashBeam.classList.remove('slashing');
+                // 4. Trigger the blinding Katana slash beam, flash & screen shake
+                introSlashSvg.classList.remove('slashing', 'sheared');
                 introSlashFlash.classList.remove('flashing');
-                void introSlashBeam.offsetWidth;
+                void introSlashSvg.offsetWidth;
                 void introSlashFlash.offsetWidth;
 
-                introSlashBeam.classList.add('slashing');
+                introSlashSvg.classList.add('slashing');
                 introSlashFlash.classList.add('flashing');
-                document.body.classList.add('screen-katana-recoil');
+                introScreen.classList.add('screen-katana-recoil');
+
+                // Burst sparks
+                spawnCutSparks(introSlashSparks);
 
                 // 5. In Navier-Stokes fluid background, unleash an ink slash
                 if (window.dyeWhorlInstance && typeof window.dyeWhorlInstance.strikeSlash === 'function') {
                     const w = window.innerWidth;
                     const h = window.innerHeight;
-                    window.dyeWhorlInstance.strikeSlash(w * 0.95, h * 0.38, w * 0.05, h * 0.62, 3.2);
+                    window.dyeWhorlInstance.strikeSlash(w * 0.95, h * 0.38, w * 0.05, h * 0.62, 3.5);
                 }
 
-                // 6. Split the two halves apart diagonally!
-                requestAnimationFrame(() => {
-                    setTimeout(() => {
-                        introSliceTop.classList.add('sliced');
-                        introSliceBottom.classList.add('sliced');
-                    }, 40);
-                });
+                // 6. PHASE 1: THE CUT SHEAR (Halves offset slightly so the cut is unmistakably visible!)
+                setTimeout(() => {
+                    introSliceTop.classList.add('sheared');
+                    introSliceBottom.classList.add('sheared');
+                    introSlashSvg.classList.add('sheared');
+                }, 40);
 
-                // 7. Cleanup and reveal portfolio once cut halves have fully slid off
+                // 7. PHASE 2: THE CLEAVE PARTING (Halves slide smoothly off-screen, revealing the portfolio)
+                setTimeout(() => {
+                    introSliceTop.classList.remove('sheared');
+                    introSliceBottom.classList.remove('sheared');
+                    introSliceTop.classList.add('parted');
+                    introSliceBottom.classList.add('parted');
+                }, 480);
+
+                // 8. PHASE 3: ARRIVAL IN PORTFOLIO (Dismiss preloader and stir entrance plume)
                 setTimeout(() => {
                     introScreen.style.display = 'none';
                     document.body.classList.remove('loading-active');
                     document.body.classList.remove('screen-katana-recoil');
-                }, 850);
+
+                    // Stir entrance plume in portfolio hero
+                    if (window.dyeWhorlInstance) {
+                        window.dyeWhorlInstance.dropBead(window.innerWidth / 2, window.innerHeight * 0.35, 0.1, 240);
+                    }
+                }, 1200);
 
                 return;
             } catch (err) {

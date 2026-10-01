@@ -37,12 +37,41 @@
             <button id="loader-skip" class="loader-skip hover-glow" type="button" aria-label="Skip Intro">DRAW BLADE [ESC] // 抜刀</button>
         </div>
 
-        <!-- Katana Cleave Sliced Halves (Revealed and parted on 100%) -->
+        <!-- Katana Cleave Sliced Halves (Revealed, sheared, and parted on 100%) -->
         <div id="intro-slice-top" class="intro-slice-half intro-slice-top" aria-hidden="true"></div>
         <div id="intro-slice-bottom" class="intro-slice-half intro-slice-bottom" aria-hidden="true"></div>
         
-        <!-- Katana Slash Beam & Blinding Flash FX -->
-        <div id="intro-slash-beam" class="intro-slash-beam" aria-hidden="true"></div>
+        <!-- Precision Katana Blade Slash Arc & Fissure SVG -->
+        <svg id="intro-slash-svg" class="intro-slash-svg" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+                <linearGradient id="slashEnergyGrad" x1="100%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#ffffff" stop-opacity="0" />
+                    <stop offset="15%" stop-color="#ffffff" stop-opacity="1" />
+                    <stop offset="42%" stop-color="#ff2a2d" stop-opacity="1" />
+                    <stop offset="75%" stop-color="#ff003c" stop-opacity="0.9" />
+                    <stop offset="100%" stop-color="#ff2a2d" stop-opacity="0" />
+                </linearGradient>
+                <filter id="bladeGlow" x="-30%" y="-30%" width="160%" height="160%">
+                    <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur" />
+                    <feMerge>
+                        <feMergeNode in="blur" />
+                        <feMergeNode in="blur" />
+                        <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                </filter>
+            </defs>
+            <!-- Wide outer katana crimson energy wake -->
+            <path id="slash-energy-wake" class="slash-energy-wake" d="M 1060, 360 Q 500, 500 -60, 640" />
+            <!-- Glowing blade body -->
+            <path id="slash-energy-arc" class="slash-energy-arc" d="M 1060, 360 Q 500, 500 -60, 640" />
+            <!-- Razor white-hot steel blade core -->
+            <path id="slash-blade-line" class="slash-blade-line" d="M 1060, 360 Q 500, 500 -60, 640" />
+            <!-- Incandescent fissure cut seam -->
+            <line id="slash-cut-seam" class="slash-cut-seam" x1="1060" y1="360" x2="-60" y2="640" />
+        </svg>
+
+        <!-- Dynamic Katana Sparks Burst & Blinding Flash FX -->
+        <div id="intro-slash-sparks" class="intro-slash-sparks" aria-hidden="true"></div>
         <div id="intro-slash-flash" class="intro-slash-flash" aria-hidden="true"></div>
     </div>
 

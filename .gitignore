@@ -103,6 +103,9 @@ temp/
 .temp/
 scratch/
 
+# Firebase Local Cache
+.firebase/
+
 # Agent / Antigravity Local Runtime Data
 .gemini/
 .antigravity/
