@@ -836,9 +836,9 @@ void main() {
       solver.v2('u_texel', texel[0], texel[1]);
       solver.f('u_dt', dt);
       solver.f('u_time', simTime);
-      solver.f('u_curlAmt', 24);
-      solver.f('u_buoy', 46);
-      solver.f('u_ambient', 8.5);
+      solver.f('u_curlAmt', 28.0);
+      solver.f('u_buoy', 50.0);
+      solver.f('u_ambient', 14.0);
       solver.f('u_aspect', aspect);
       solver.v4a('u_sp', splatPosRadius);
       solver.v4a('u_sf', splatForceAccent);
