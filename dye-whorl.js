@@ -614,7 +614,6 @@ void main() {
 
     let animFrameId = 0;
     let isRunning = false;
-    let isReducedMotion = false;
     let isDestroyed = false;
 
     let width = 0;
@@ -1002,7 +1001,7 @@ void main() {
       fboFwd = newFwd;
       fboBack = newBack;
 
-      const warmupSteps = canPreserve ? 8 : (isReducedMotion ? Xh : Yh);
+      const warmupSteps = canPreserve ? 8 : Yh;
       isAllocated = true;
       spin(warmupSteps);
       clearSplats();
@@ -1143,7 +1142,6 @@ void main() {
     function onPointerEnter(e) {
       setTarget(e);
       snapPointer();
-      if (isReducedMotion) staticStir();
     }
 
     function onPointerLeave() {
@@ -1153,20 +1151,11 @@ void main() {
     function onPointerMove(e) {
       setTarget(e);
       if (!hasPointer) snapPointer();
-      if (isReducedMotion) {
-        filterX = targetX;
-        filterY = targetY;
-        staticStir();
-      }
     }
 
     function onPointerDown(e) {
       setTarget(e);
       snapPointer();
-      if (isReducedMotion) {
-        staticStir();
-        return;
-      }
       // Drop a fresh vibrant bead on press
       const pulseAngle = simTime * 2.7;
       setSplat(
@@ -1199,22 +1188,6 @@ void main() {
     window.addEventListener('scroll', markBoundsDirty, { passive: true, capture: true });
     window.addEventListener('resize', markBoundsDirty, { passive: true });
 
-    // Reduced motion preference
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-    isReducedMotion = mq.matches;
-    function onReducedMotionChange() {
-      isReducedMotion = mq.matches;
-      if (isReducedMotion) {
-        sleep();
-        spin(60);
-        clearSplats();
-        render();
-      } else {
-        wake();
-      }
-    }
-    mq.addEventListener('change', onReducedMotionChange);
-
     // ResizeObserver on container
     let rafResize = 0;
     const ro = new ResizeObserver(() => {
@@ -1229,23 +1202,11 @@ void main() {
     resize();
     if (width >= 2 && !fboVel) allocate();
 
-    // IntersectionObserver to pause when hidden
-    let isIntersecting = true;
-    const io = new IntersectionObserver((entries) => {
-      isIntersecting = entries.some(entry => entry.isIntersecting);
-      if (isIntersecting && !isReducedMotion && !document.hidden) {
-        wake();
-      } else {
-        sleep();
-      }
-    }, { threshold: 0 });
-    io.observe(containerEl);
-
-    // Tab visibility
+    // Tab visibility handling: pause only when tab is hidden to save battery
     function onVisibility() {
       if (document.hidden) {
         sleep();
-      } else if (!isReducedMotion && isIntersecting) {
+      } else {
         wake();
       }
     }
@@ -1273,12 +1234,8 @@ void main() {
     canvasEl.addEventListener('webglcontextlost', onContextLost);
     canvasEl.addEventListener('webglcontextrestored', onContextRestored);
 
-    if (isReducedMotion) {
-      clearSplats();
-      render();
-    } else {
-      wake();
-    }
+    // Always start running immediately
+    wake();
 
     return {
       solver,
@@ -1378,9 +1335,7 @@ void main() {
       destroy: () => {
         isDestroyed = true;
         ro.disconnect();
-        io.disconnect();
         cancelAnimationFrame(rafResize);
-        mq.removeEventListener('change', onReducedMotionChange);
         document.removeEventListener('visibilitychange', onVisibility);
         mo.disconnect();
         canvasEl.removeEventListener('webglcontextlost', onContextLost);

@@ -32,11 +32,25 @@
     --glass-bg: var(--surface-1);
     --glass-border: var(--border);
 
-    /* Typography */
+    /* Typography System - Unified & Consistent */
     --font-heading: 'Shippori Mincho', 'Cinzel', Georgia, serif;
-    --font-serif: 'Cinzel', serif;
-    --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-serif: 'Cinzel', 'Shippori Mincho', Georgia, serif;
+    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-main: var(--font-sans);
+    --font-body: var(--font-sans);
     --font-mono: 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    --font-kanji: 'Shippori Mincho', serif;
+
+    /* Katana Saya / Sheath Lacquer Gradient & Trims (Dark Mode: Obsidian Gloss) */
+    --saya-grad-0: #1e2229;
+    --saya-grad-1: #2a303c;
+    --saya-grad-2: #12151a;
+    --saya-grad-3: #3b1d22;
+    --saya-grad-4: #090a0d;
+    --saya-body-stroke: #27272a;
+    --saya-rail-bg: rgba(10, 12, 18, 0.94);
+    --saya-rail-border: rgba(217, 56, 58, 0.32);
+    --saya-rail-shadow: -8px 0 35px rgba(0, 0, 0, 0.75), -1px 0 16px rgba(217, 56, 58, 0.16);
 
     /* Metrics & Layout */
     --header-height: 80px;
@@ -72,6 +86,17 @@
     --accent-color: var(--accent);
     --glass-bg: var(--surface-1);
     --glass-border: var(--border);
+
+    /* Katana Saya / Sheath Pearl White Lacquer (Light Mode: Shirasaya / Pure Pearl) */
+    --saya-grad-0: #f1f5f9;
+    --saya-grad-1: #ffffff;
+    --saya-grad-2: #f8fafc;
+    --saya-grad-3: #e2e8f0;
+    --saya-grad-4: #cbd5e1;
+    --saya-body-stroke: #94a3b8;
+    --saya-rail-bg: rgba(255, 255, 255, 0.94);
+    --saya-rail-border: rgba(185, 28, 28, 0.22);
+    --saya-rail-shadow: -8px 0 35px rgba(17, 20, 26, 0.08), -1px 0 16px rgba(185, 28, 28, 0.06);
 }
 
 /* ==========================================================================
@@ -576,7 +601,7 @@ body {
 }
 
 .loader-chip {
-    font-family: var(--font-serif);
+    font-family: var(--font-mono);
     font-size: 0.75rem;
     letter-spacing: 0.16em;
     color: var(--accent);
@@ -593,7 +618,7 @@ body {
 }
 
 .loader-kanji {
-    font-family: var(--font-heading);
+    font-family: var(--font-kanji);
     font-size: 2.8rem;
     font-weight: 800;
     color: var(--accent);
@@ -602,7 +627,7 @@ body {
 }
 
 .loader-title {
-    font-family: var(--font-serif);
+    font-family: var(--font-heading);
     font-size: 1.8rem;
     font-weight: 800;
     letter-spacing: 0.06em;
@@ -836,7 +861,7 @@ aside {
     border-radius: var(--radius-sm);
     text-decoration: none;
     color: var(--muted);
-    font-family: var(--font-serif);
+    font-family: var(--font-main);
     font-size: 0.85rem;
     font-weight: 600;
     letter-spacing: 0.04em;
@@ -853,7 +878,7 @@ aside {
 }
 
 .nav-item-link .nav-kanji {
-    font-family: var(--font-heading);
+    font-family: var(--font-kanji);
     font-size: 0.75rem;
     opacity: 0.6;
     margin-left: 0.15rem;
@@ -896,10 +921,10 @@ aside {
     background: var(--surface-2);
     border: 1px solid var(--border);
     color: var(--foreground);
-    font-family: var(--font-serif);
-    font-size: 0.76rem;
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
     font-weight: 600;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.04em;
     cursor: pointer;
     transition: all 0.25s ease;
     box-sizing: border-box;
@@ -1122,8 +1147,8 @@ aside {
     border: 1px solid var(--border);
     color: var(--foreground);
     text-decoration: none;
-    font-family: var(--font-serif);
-    font-size: 0.85rem;
+    font-family: var(--font-main);
+    font-size: 0.88rem;
     font-weight: 600;
     box-sizing: border-box;
 }
@@ -1135,8 +1160,8 @@ aside {
 }
 
 .mobile-nav-link .m-kanji {
-    font-family: var(--font-heading);
-    font-size: 0.8rem;
+    font-family: var(--font-kanji);
+    font-size: 0.82rem;
     opacity: 0.7;
 }
 
@@ -1163,8 +1188,8 @@ aside {
     background: var(--surface-2);
     border: 1px solid var(--border);
     color: var(--foreground);
-    font-family: var(--font-serif);
-    font-size: 0.8rem;
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
     font-weight: 600;
     cursor: pointer;
     box-sizing: border-box;
@@ -1202,15 +1227,15 @@ aside {
 }
 
 .katana-rail-card {
-    background: rgba(10, 12, 18, 0.94);
-    border-left: 1px solid rgba(217, 56, 58, 0.32);
+    background: var(--saya-rail-bg, rgba(10, 12, 18, 0.94));
+    border-left: 1px solid var(--saya-rail-border, rgba(217, 56, 58, 0.32));
     border-right: none;
     border-top: none;
     border-bottom: none;
     border-radius: 0;
     backdrop-filter: blur(28px) saturate(200%);
     -webkit-backdrop-filter: blur(28px) saturate(200%);
-    box-shadow: -8px 0 35px rgba(0, 0, 0, 0.75), -1px 0 16px rgba(217, 56, 58, 0.16);
+    box-shadow: var(--saya-rail-shadow, -8px 0 35px rgba(0, 0, 0, 0.75));
     padding: 0.65rem 0.35rem 0.55rem;
     display: flex;
     flex-direction: column;
@@ -1219,13 +1244,24 @@ aside {
     width: 100%;
     height: 100%;
     box-sizing: border-box;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    transition: background 0.4s ease, border-color 0.3s ease, box-shadow 0.3s ease;
     user-select: none;
 }
 
 .katana-rail-card:hover {
     border-left-color: var(--accent);
     box-shadow: -10px 0 45px rgba(0, 0, 0, 0.85), -2px 0 24px var(--accent-glow);
+}
+
+[data-theme="light"] .katana-rail-card {
+    background: rgba(255, 255, 255, 0.94);
+    border-left: 1px solid rgba(185, 28, 28, 0.22);
+    box-shadow: -8px 0 35px rgba(17, 20, 26, 0.08), -1px 0 16px rgba(185, 28, 28, 0.06);
+}
+
+[data-theme="light"] .katana-rail-card:hover {
+    border-left-color: var(--accent);
+    box-shadow: -10px 0 45px rgba(17, 20, 26, 0.12), -2px 0 24px var(--accent-glow);
 }
 
 /* Katana HUD Top */
@@ -1251,6 +1287,7 @@ aside {
 }
 
 .katana-hud-kanji {
+    font-family: var(--font-kanji);
     color: var(--accent);
     font-weight: 700;
 }
@@ -1284,6 +1321,12 @@ aside {
     white-space: nowrap;
     letter-spacing: 0.04em;
     transition: all 0.25s ease;
+}
+
+[data-theme="light"] .katana-hud-stance {
+    background: rgba(243, 244, 246, 0.95);
+    color: var(--foreground);
+    border-color: rgba(17, 20, 26, 0.15);
 }
 
 /* Katana Chassis & Track */
@@ -1355,15 +1398,23 @@ aside {
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
     padding: 0.3rem 0.6rem;
-    font-family: var(--font-serif);
-    font-size: 0.7rem;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
     font-weight: 600;
+    letter-spacing: 0.04em;
     color: var(--foreground);
     white-space: nowrap;
     opacity: 0;
     pointer-events: none;
     transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     box-shadow: 0 4px 18px rgba(0, 0, 0, 0.55);
+}
+
+[data-theme="light"] .katana-waypoint-node .wp-label {
+    background: rgba(255, 255, 255, 0.95);
+    color: var(--foreground);
+    border-color: rgba(17, 20, 26, 0.15);
+    box-shadow: 0 4px 18px rgba(17, 20, 26, 0.08);
 }
 
 .katana-waypoint-node:hover .wp-label {
@@ -1397,6 +1448,10 @@ aside {
     touch-action: none;
 }
 
+[data-theme="light"] .katana-svg-stage {
+    filter: drop-shadow(0 4px 12px rgba(17, 20, 26, 0.12));
+}
+
 .katana-svg {
     height: 100%;
     width: 100%;
@@ -1422,6 +1477,29 @@ body.sheath-dragging * {
 .katana-saya-sheath.is-dragging {
     filter: drop-shadow(0 0 10px rgba(217, 56, 58, 0.95)) drop-shadow(0 0 4px #ffd700);
     transition: none !important;
+}
+
+/* Saya Gradient Stops and Sheath Body in Light & Dark Mode */
+.saya-stop-0 { stop-color: var(--saya-grad-0); transition: stop-color 0.4s ease; }
+.saya-stop-1 { stop-color: var(--saya-grad-1); transition: stop-color 0.4s ease; }
+.saya-stop-2 { stop-color: var(--saya-grad-2); transition: stop-color 0.4s ease; }
+.saya-stop-3 { stop-color: var(--saya-grad-3); transition: stop-color 0.4s ease; }
+.saya-stop-4 { stop-color: var(--saya-grad-4); transition: stop-color 0.4s ease; }
+
+[data-theme="light"] .saya-stop-0 { stop-color: #f1f5f9; }
+[data-theme="light"] .saya-stop-1 { stop-color: #ffffff; }
+[data-theme="light"] .saya-stop-2 { stop-color: #f8fafc; }
+[data-theme="light"] .saya-stop-3 { stop-color: #e2e8f0; }
+[data-theme="light"] .saya-stop-4 { stop-color: #cbd5e1; }
+
+.katana-saya-body {
+    fill: url(#sayaLacquerGrad);
+    stroke: var(--saya-body-stroke, #27272a);
+    transition: stroke 0.4s ease;
+}
+
+[data-theme="light"] .katana-saya-body {
+    stroke: #94a3b8;
 }
 
 /* Katana Blade Shimmer on Hover */
@@ -1491,6 +1569,18 @@ body.sheath-dragging * {
     color: var(--foreground);
 }
 
+[data-theme="light"] .katana-strike-trigger {
+    background: rgba(243, 244, 246, 0.95);
+    border-color: rgba(17, 20, 26, 0.15);
+    color: var(--foreground);
+}
+
+[data-theme="light"] .katana-strike-trigger:hover {
+    background: #ffffff;
+    border-color: var(--accent);
+    box-shadow: 0 0 16px var(--accent-glow);
+}
+
 .strike-trigger-icon {
     font-size: 0.92rem;
     line-height: 1;
@@ -1520,9 +1610,9 @@ body.sheath-dragging * {
 }
 
 .strike-text {
-    font-family: var(--font-heading);
-    font-size: 0.64rem;
-    font-weight: 800;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    font-weight: 700;
     letter-spacing: 0.08em;
     color: var(--foreground);
     text-transform: uppercase;
@@ -1530,7 +1620,7 @@ body.sheath-dragging * {
 }
 
 .strike-kanji {
-    font-family: var(--font-heading);
+    font-family: var(--font-kanji);
     font-size: 0.58rem;
     letter-spacing: 0.1em;
     color: var(--accent);
@@ -1740,7 +1830,7 @@ body.screen-katana-recoil {
 }
 
 .mobile-brand-title {
-    font-family: var(--font-serif);
+    font-family: var(--font-heading);
     font-weight: 700;
     font-size: 0.95rem;
     letter-spacing: 0.06em;
@@ -1852,7 +1942,7 @@ section[id] {
     height: 32px;
     border: 2px solid var(--accent);
     color: var(--accent);
-    font-family: var(--font-heading);
+    font-family: var(--font-kanji);
     font-weight: 800;
     font-size: 0.95rem;
     line-height: 1;
@@ -1865,9 +1955,10 @@ section[id] {
 }
 
 .kicker {
-    font-family: var(--font-serif);
-    font-size: 0.85rem;
-    letter-spacing: 0.16em;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
     color: var(--accent);
     text-transform: uppercase;
     text-shadow: var(--kicker-halo);
@@ -1906,10 +1997,10 @@ section[id] {
 .btn-primary {
     background: var(--accent);
     color: var(--accent-fg);
-    font-family: var(--font-serif);
+    font-family: var(--font-main);
     font-size: 0.88rem;
     font-weight: 700;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.04em;
     padding: 0.95rem 2rem;
     border-radius: var(--radius-sm);
     text-decoration: none;
@@ -1933,10 +2024,10 @@ section[id] {
 .btn-secondary {
     background: var(--surface-1);
     color: var(--foreground);
-    font-family: var(--font-serif);
+    font-family: var(--font-main);
     font-size: 0.88rem;
     font-weight: 600;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.03em;
     padding: 0.95rem 2rem;
     border-radius: var(--radius-sm);
     border: 1px solid var(--border);
@@ -2032,7 +2123,7 @@ section[id] {
    ========================================================================== */
 
 .section {
-    padding: 7rem 2rem;
+    padding: 4.5rem 2rem 3rem;
     max-width: 1200px;
     margin: 0 auto;
     width: 100%;
@@ -2061,9 +2152,10 @@ section[id] {
 }
 
 .section-kicker {
-    font-family: var(--font-serif);
-    font-size: 0.82rem;
-    letter-spacing: 0.16em;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
     color: var(--accent);
     margin-bottom: 0.6rem;
     text-transform: uppercase;
@@ -3415,38 +3507,39 @@ section[id] {
 }
 
 /* ==========================================================================
-   Footer
+   Footer - Ultra Compact & Samurai Aesthetic
    ========================================================================== */
 
 .footer {
-    padding: 4.5rem 2rem 3rem;
+    padding: 2rem 1.5rem 1.5rem;
     border-top: 1px solid var(--border);
-    margin-top: 5rem;
+    margin-top: 2rem;
     background: rgba(0, 0, 0, 0.2);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
 }
 
 [data-theme="light"] .footer {
-    background: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.55);
 }
 
 .footer-content {
-    max-width: 1400px;
+    max-width: 900px;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    gap: 3rem;
-    padding-bottom: 2.5rem;
+    gap: 2.5rem;
+    padding-bottom: 1.25rem;
     border-bottom: 1px solid var(--border);
 }
 
 .footer-brand {
     display: flex;
     align-items: flex-start;
-    gap: 1.25rem;
-    max-width: 520px;
+    gap: 1rem;
+    max-width: 420px;
+    flex: 1.2;
 }
 
 .logo-kamon-small {
@@ -3468,43 +3561,45 @@ section[id] {
 
 .footer-name {
     font-family: var(--font-heading);
-    font-size: 1.15rem;
+    font-size: 1.05rem;
     font-weight: 700;
     color: var(--foreground);
-    letter-spacing: 0.02em;
+    letter-spacing: 0.03em;
     display: block;
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.25rem;
 }
 
 .footer-desc {
-    font-size: 0.88rem;
+    font-size: 0.82rem;
     color: var(--muted);
-    line-height: 1.6;
+    line-height: 1.5;
     margin: 0;
 }
 
 .footer-nav-groups {
     display: flex;
-    gap: 4rem;
+    gap: 3rem;
+    flex: 1;
+    justify-content: flex-end;
 }
 
 .footer-nav-col {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.5rem;
 }
 
 .footer-col-title {
     font-family: var(--font-mono);
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     font-weight: 700;
     color: var(--foreground);
     letter-spacing: 0.08em;
-    margin-bottom: 0.35rem;
+    margin-bottom: 0.2rem;
 }
 
 .footer-link {
-    font-size: 0.88rem;
+    font-size: 0.82rem;
     color: var(--muted);
     text-decoration: none;
     transition: color 0.2s ease;
@@ -3515,14 +3610,15 @@ section[id] {
 }
 
 .footer-bottom-bar {
-    max-width: 1400px;
-    margin: 2rem auto 0;
+    max-width: 900px;
+    margin: 1.15rem auto 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-family: var(--font-mono);
-    font-size: 0.76rem;
+    font-size: 0.7rem;
     color: var(--muted);
+    letter-spacing: 0.03em;
 }
 
 .back-to-top-btn {
@@ -3531,18 +3627,20 @@ section[id] {
     font-weight: 600;
     letter-spacing: 0.05em;
     transition: all 0.2s ease;
-    padding: 0.4rem 0.8rem;
+    padding: 0.25rem 0.65rem;
     border-radius: var(--radius-sm);
     border: 1px solid var(--border);
-    min-height: 44px;
+    min-height: 32px;
+    font-size: 0.68rem;
     display: inline-flex;
     align-items: center;
+    background: var(--surface-1);
 }
 
 .back-to-top-btn:hover {
     color: var(--foreground);
-    border-color: var(--border-hover);
-    background: var(--surface-1);
+    border-color: var(--accent);
+    background: var(--surface-2);
     box-shadow: 0 0 10px var(--accent-glow);
 }
 
@@ -3797,7 +3895,8 @@ section[id] {
 }
 
 .footer {
-    padding: 3.5rem 1rem 2.5rem;
+    padding: 1.75rem 1rem 1.25rem;
+    margin-top: 1.5rem;
     box-sizing: border-box;
 }
 
@@ -3808,7 +3907,7 @@ section[id] {
 
 .footer-bottom-bar {
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 0.75rem;
     align-items: flex-start;
 }
 }

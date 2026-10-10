@@ -858,6 +858,7 @@ function initOpeningIntro() {
 
                     // Stir entrance plume in portfolio hero
                     if (window.dyeWhorlInstance) {
+                        window.dyeWhorlInstance.wake();
                         window.dyeWhorlInstance.dropBead(window.innerWidth / 2, window.innerHeight * 0.35, 0.1, 240);
                     }
                 }, 1200);
@@ -875,6 +876,7 @@ function initOpeningIntro() {
         // Stir starting plume once user enters
         setTimeout(() => {
             if (window.dyeWhorlInstance) {
+                window.dyeWhorlInstance.wake();
                 window.dyeWhorlInstance.dropBead(window.innerWidth / 2, window.innerHeight * 0.35, 0.08, 200);
             }
         }, 500);
